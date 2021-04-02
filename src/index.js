@@ -1,6 +1,6 @@
 // export * from './index.final'
 
-export * from './index.exercise'
+export * from './index.exercise.tsx'
 
 // 💯 Use `@reach/dialog`
 // export * from './index.extra-1'

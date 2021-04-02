@@ -4,15 +4,28 @@ import {Logo} from './components/logo'
 import Dialog from '@reach/dialog'
 import '@reach/dialog/styles.css'
 
-const LoginForm = (props)=>{
+interface Props {
+    name : string;
+    open : boolean;
+    openHandler : React.Dispatch<React.SetStateAction<boolean>>;
+    showData : (data : Data) => void
+}
+
+interface Data {
+    username : string;
+    password : string;
+}
+
+
+const LoginForm = (props : Props)=>{
     const {name, openHandler, open, showData} = props;
-    function submitHandler(event){
+    function submitHandler(event: any){
         event.preventDefault()
-        const {username, pass} = event.target.elements;
+        const {username, pass} = event.target.elements
 
         showData({
             username : username.value,
-            passwrod : pass.value
+            password : pass.value
         })
     }
     return (
@@ -32,16 +45,16 @@ const LoginForm = (props)=>{
 }
 
 const App = ()=>{
-    const [open, isOpen] = useState(false);
-    const [name, setName] = useState('');
+    const [open, isOpen] = useState<boolean>(false);
+    const [name, setName] = useState<string>('');
 
-    function clickHandler(event){
-        const {innerText : buttonName} = event.target;
+    function clickHandler(event: React.MouseEvent){
+        const {innerText : buttonName} = event.target as HTMLElement
         setName(buttonName);
         isOpen(true);
     }
     
-    function showData(data){
+    function showData(data : Data){
         console.log(data)
     }
     return (
