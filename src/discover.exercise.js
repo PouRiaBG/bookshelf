@@ -1,49 +1,33 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
-import React from 'react'
-import './bootstrap'
+
+import * as React from 'react'
 import Tooltip from '@reach/tooltip'
-import {FaSearch} from 'react-icons/fa'
+import {FaSearch, FaTimes} from 'react-icons/fa'
 import {Input, BookListUL, Spinner} from './components/lib'
 import {BookRow} from './components/book-row'
-//import the client from './utils/api-client'
+import {client} from './utils/api-client'
+import * as colors from './styles/colors'
+import {useAsync} from 'utils/hooks'
 
 function DiscoverBooksScreen() {
-  const [status, setStatus] = React.useState()
-  const [data, setData] = React.useState()
-  const [query, setQuery] = React.useState('')
-  const [queried , setQueried] = React.useState(false)
+  const {data, error, run, isLoading, isError, isSuccess} = useAsync()
+  
+  const [query, setQuery] = React.useState()
+  const [queried, setQueried] = React.useState(false)
 
-  React.useEffect(()=>{
-    if(!queried){
+
+  React.useEffect(() => {
+    if (!queried) {
       return
     }
-    setStatus('loading');
-
-    const endpoint = `${process.env.REACT_APP_API_URL}/books?query=${encodeURIComponent(query)}`
-
-    fetch(endpoint)
-    .then(
-      res => res.json()
-    )
-    .then(
-      response => {
-        setData(response);
-        setStatus('success')
-      }
-      
-    )
-
-  },[query,queried])
-  
-  const isLoading = status === 'loading'
-  const isSuccess = status === 'success'
+    run(client(`books?query=${encodeURIComponent(query)}`))
+  }, [query, queried, run])
 
   function handleSearchSubmit(event) {
     event.preventDefault()
     setQueried(true)
-    const {search} = event.target.elements
-    setQuery(search.value)
+    setQuery(event.target.elements.search.value)
   }
 
   return (
@@ -67,11 +51,24 @@ function DiscoverBooksScreen() {
                 background: 'transparent',
               }}
             >
-              {isLoading ? <Spinner /> : <FaSearch aria-label="search" />}
+              {isLoading ? (
+                <Spinner />
+              ) : isError ? (
+                <FaTimes aria-label="error" css={{color: colors.danger}} />
+              ) : (
+                <FaSearch aria-label="search" />
+              )}
             </button>
           </label>
         </Tooltip>
       </form>
+
+      {isError ? (
+        <div css={{color: colors.danger}}>
+          <p>There was an error:</p>
+          <pre>{error.message}</pre>
+        </div>
+      ) : null}
 
       {isSuccess ? (
         data?.books?.length ? (
