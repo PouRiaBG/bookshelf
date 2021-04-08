@@ -1,11 +1,9 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
-import {Modal, ModalContents, ModalOpenButton, ModalDismissButton} from 'components/modal.exercise' 
+import {Modal, ModalContents, ModalOpenButton} from 'components/modal.exercise' 
 import * as React from 'react'
-import VisuallyHidden from '@reach/visually-hidden'
 import {
   Input,
-  CircleButton,
   Button,
   Spinner,
   FormGroup,
@@ -94,17 +92,11 @@ function UnauthenticatedApp() {
           <ModalOpenButton>
             <Button variant="primary">Login</Button>
           </ModalOpenButton>
-          <ModalContents aria-label="Login form">
-              <div css={{display: 'flex', justifyContent: 'flex-end'}}>
-              <ModalDismissButton>
-                <CircleButton >
-                  <VisuallyHidden>Close</VisuallyHidden>
-                  <span aria-hidden>×</span>
-                </CircleButton>
-              </ModalDismissButton>
-            </div>
-            <h3 css={{textAlign: 'center', fontSize: '2em'}}>Login</h3>
-            <LoginForm onSubmit={login} submitButton={<Button variant="primary">Login</Button>} />
+
+          <ModalContents title="Login" aria-label="Login form">
+            <LoginForm 
+            onSubmit={login} 
+            submitButton={<Button variant="primary">Login</Button>} />
           </ModalContents>
 
        </Modal>
@@ -114,17 +106,10 @@ function UnauthenticatedApp() {
           <ModalOpenButton>
             <Button variant="primary">Register</Button>
           </ModalOpenButton>
-          <ModalContents aria-label="Register form">
-              <div css={{display: 'flex', justifyContent: 'flex-end'}}>
-              <ModalDismissButton>
-                <CircleButton >
-                  <VisuallyHidden>Close</VisuallyHidden>
-                  <span aria-hidden>×</span>
-                </CircleButton>
-              </ModalDismissButton>
-            </div>
-            <h3 css={{textAlign: 'center', fontSize: '2em'}}>Register</h3>
-            <LoginForm onSubmit={register} submitButton={<Button variant="secondary">Register</Button>} />
+          <ModalContents title="Register" aria-label="Register form">
+            <LoginForm 
+            onSubmit={register} 
+            submitButton={<Button variant="secondary">Register</Button>} />
           </ModalContents>
 
        </Modal>
