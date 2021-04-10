@@ -14,6 +14,8 @@ import * as colors from 'styles/colors'
 import {Spinner, Textarea, ErrorMessage} from 'components/lib'
 import {Rating} from 'components/rating'
 import {StatusButtons} from 'components/status-buttons'
+import {Profiler} from 'components/profiler'
+
 
 function BookScreen() {
   const {bookId} = useParams()
@@ -23,6 +25,7 @@ function BookScreen() {
   const {title, author, coverImageUrl, publisher, synopsis} = book
 
   return (
+    <Profiler id="Book" metadata={{bookId, listItemId: listItem?.id}}>
     <div>
       <div
         css={{
@@ -76,6 +79,7 @@ function BookScreen() {
         <NotesTextarea listItem={listItem} />
       ) : null}
     </div>
+    </Profiler>
   )
 }
 
